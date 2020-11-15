@@ -1,4 +1,4 @@
-# woo-sales-product-timer-manipulation
+# Woo sales product timer manipulation
 Based on The **Sales Countdown Timer** plugin This  helps you modify the status of a product after the countdown or sales period has ended.
 Current Available status
 - Trash
