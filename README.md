@@ -1,2 +1,12 @@
 # woo-sales-product-timer-manipulation
-       Description  Sales Countdown Timer helps you maximize the revenue of your sale campaigns. The plugin displays sales countdown timer in single product pages and shop page. Encourage customers to purchase by creating urgency psychology.
+Based on The **Sales Countdown Timer** plugin This  helps you modify the status of a product after the countdown or sales period has ended.
+Current Available status
+- Trash
+- Draft
+
+Dependent on **WooCommerce** and **Sales Countdown Timer**.
+
+### How to Install
+Same way you install All other WordPress plugins, DKM abeg 🥴
+
+##### Have a nice day.
