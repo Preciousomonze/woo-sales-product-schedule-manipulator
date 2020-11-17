@@ -1,0 +1,9 @@
+.vscode
+.ds_store
+node_modules/
+.sass-cache/
+build/
+deploy/
+vendor/
+package-lock.json
+screenshots/
