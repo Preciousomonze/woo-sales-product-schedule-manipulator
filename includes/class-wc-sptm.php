@@ -74,10 +74,13 @@ final class WOO_SPTM{
      * load plugin files
      */
     public static function includes() {
-        
-		//include for all
-		include_once( WOO_SPTM_ABSPATH . 'includes/admin/meta-boxes/class-wc-sptm-product-meta.php' );
+        // Include for all.
+		include_once WOO_SPTM_ABSPATH . 'includes/class-wc-sptm-scheduler.php';
 
+        // Admin side.
+        if ( self::is_request( 'admin' ) ) {
+            include_once WOO_SPTM_ABSPATH . 'includes/admin/meta-boxes/class-wc-sptm-meta-box-product-data.php';
+        }
     }
 	
     /**
