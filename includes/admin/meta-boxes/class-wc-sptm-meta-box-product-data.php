@@ -8,6 +8,14 @@ defined( 'ABSPATH' ) || exit;
 class WC_SPTM_Meta_Box_Product_Data {
 
 	/**
+	 * Action custom meta
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	private static $action_custom_meta = '_woo_sptm_after_sales_action';
+
+	/**
 	 * Bootstraps the class and hooks required actions & filters.
 	 *
 	 * @since 1.0.0
@@ -36,7 +44,7 @@ class WC_SPTM_Meta_Box_Product_Data {
 	public static function add_to_metabox() {
         woocommerce_wp_select( 
             array( 
-                'id'          => '_woo_sptm_after_sales_action', 
+                'id'          => self::$action_custom_meta, 
                 'label'       => __( 'What happens after sales ends?', 'woo-sptm' ), 
                 'desc_tip'    => 'true',
                 'description' => __('Choose what should happen to the product after sales ends.',  'woo-sptm' ),
@@ -59,8 +67,8 @@ class WC_SPTM_Meta_Box_Product_Data {
 
 		// phpcs:disable WordPress.Security.NonceVerification
 
-		if ( isset( $_POST['_woo_sptm_after_sales_action'] ) ) {
-			$product->update_meta_data( '_woo_sptm_after_sales_action', esc_attr( $_POST['_woo_sptm_after_sales_action'] ) );
+		if ( isset( $_POST[ self::$action_custom_meta ] ) ) {
+			$product->update_meta_data( self::$action_custom_meta, esc_attr( $_POST[ self::$action_custom_meta ] ) );
         }
 	}
 
@@ -76,7 +84,7 @@ class WC_SPTM_Meta_Box_Product_Data {
 	public static function product_variations_options( $loop, $variation_data, $variation ) {
         woocommerce_wp_select( 
             array( 
-                'id'          => '_woo_sptm_after_sales_action[' . $loop . ']', 
+                'id'          => self::$action_custom_meta . '[' . $loop . ']', 
                 'label'       => __( 'What happens after sales ends?', 'woo-sptm' ), 
                 'desc_tip'    => 'true',
                 'description' => __('Choose what should happen to the product after sales ends.',  'woo-sptm' ),
@@ -101,7 +109,7 @@ class WC_SPTM_Meta_Box_Product_Data {
 
         // phpcs:disable WordPress.Security.NonceVerification
         
-        $variation_after_sales_action = isset( $_POST['_woo_sptm_after_sales_action'][ $i ] ) ? $_post['_woo_sptm_after_sales_action'] : false ;
+        $variation_after_sales_action = isset( $_POST[ self::$action_custom_meta ][ $i ] ) ? $_POST[ self::$action_custom_meta ][ $i ] : false ;
         if ( $variation_after_sales_action === false ) {
             return;
         }
@@ -114,7 +122,7 @@ class WC_SPTM_Meta_Box_Product_Data {
 			$is_legacy = true;
 		}
         
-        $variation->update_meta_data( '_woo_sptm_after_sales_action', $variation_after_sales_action );
+        $variation->update_meta_data( self::$action_custom_meta, $variation_after_sales_action );
 
 		// Save the meta on WC<3.8.
 		if ( $is_legacy ) {
