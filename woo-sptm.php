@@ -22,7 +22,7 @@ define( 'WOO_SPTM_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'WOO_SPTM_PLUGIN_FILE', __FILE__ );
 
 // Include dependencies file
-if ( ! class_exists( 'WC_PV_Dependencies' ) ) {
+if ( ! class_exists( 'WC_SPTM_Dependencies' ) ) {
     include_once dirname( __FILE__ ) . '/includes/class-wc-sptm-dependencies.php';
 }
 
@@ -40,6 +40,6 @@ function woo_sptm() {
     return WC_SPTM::instance();
 }
 
-add_action( 'woocommerce_init', 'woo_sptm' );
+add_action( 'plugins_loaded', 'woo_sptm' );
 
 $GLOBALS['woo_sptm'] = woo_sptm();
