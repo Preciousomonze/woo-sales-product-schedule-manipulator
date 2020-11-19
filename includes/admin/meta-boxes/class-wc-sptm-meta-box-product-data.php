@@ -52,7 +52,8 @@ class WC_SPTM_Meta_Box_Product_Data {
                     ''       => __( '', 'woo-sptm' ),
                     'delete' => __( 'Delete Product',  'woo-sptm' ),
                     'draft'  => __( 'Draft Product',  'woo-sptm' ),
-                )
+				),
+				'wrapper_class' => 'show_if_simple',
             )
         );
 	}
@@ -92,7 +93,7 @@ class WC_SPTM_Meta_Box_Product_Data {
                     ''       => __( '', 'woo-sptm' ),
                     'delete' => __( 'Delete Product',  'woo-sptm' ),
                     'draft'  => __( 'Draft Product',  'woo-sptm' ),
-                )
+				),
             )
         );
 	}
@@ -131,7 +132,6 @@ class WC_SPTM_Meta_Box_Product_Data {
 
 	}
 
-
-
 }
+
 WC_SPTM_Meta_Box_Product_Data::init();

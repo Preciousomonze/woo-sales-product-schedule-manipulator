@@ -1,13 +1,15 @@
 <?php
-if (!defined('ABSPATH'))
-    exit; // Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
-final class WOO_SPTM{
+/**
+ * Main Class to load stuff.
+ */
+final class WC_SPTM {
 
     /**
      * The single instance of the class.
      *
-     * @var WOO_SPTM
+     * @var WC_SPTM
      * @since 1.0.0
      */
     protected static $_instance = null;
@@ -24,11 +26,26 @@ final class WOO_SPTM{
     }
 
     /**
+     * Constructor.
+     */
+    public function __construct() {
+        if ( WC_SPTM_Dependencies::is_dep_active() ) {
+            self::init();
+        } else {
+            add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 15 );
+        }
+    }
+    /**
      * Initialiseeee
      */
     public static function init() {
         self::define_constants(); //Define the constants.
         self::includes(); // Include relevant files.
+
+        /**
+         * Init.
+         */
+        do_action( 'woo_sptm_init' );
     }
 
     /**
@@ -37,7 +54,6 @@ final class WOO_SPTM{
     private function define_constants() {
         self::define( 'WOO_SPTM_ABSPATH', dirname( WOO_SPTM_PLUGIN_FILE ) . '/' );
         self::define( 'WOO_SPTM_PLUGIN_FILE', plugin_basename( WOO_SPTM_PLUGIN_FILE ) );
-        self::define( 'WOO_SPTM_ASSETS_PATH', plugins_url( 'assets/', __FILE__ ) );
         self::define( 'WOO_SPTM_PLUGIN_VERSION', '1.0.0' );
     }
 
@@ -88,8 +104,17 @@ final class WOO_SPTM{
      */
     public static function admin_notices() {
         echo '<div class="error"><p>';
-        _e('<strong>Woo Sales Product Timer Manipulation</strong> plugin requires <strong>WooCommerce</strong> and <strong>Sales Countdown Timer</strong> plugin to be active!', 'woo-sptm' );
+        _e('<strong>Woo Sales Product Timer Manipulation</strong> plugin requires <strong>WooCommerce</strong> and <strong>Sales Countdown Timer</strong> plugins to be active!', 'woo-sptm' );
         echo '</p></div>';
+    }
+
+    /**
+     * Load Localisation files.
+     *
+     * @since  1.0.0
+     */
+    public static function load_plugin_textdomain() {
+        load_plugin_textdomain( 'woo-sptm', false, plugin_basename( dirname( WOO_SPTM_PLUGIN_FILE ) ) . '/languages' );
     }
 
 }
