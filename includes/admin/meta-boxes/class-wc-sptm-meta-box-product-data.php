@@ -16,11 +16,38 @@ class WC_SPTM_Meta_Box_Product_Data {
 	private static $action_custom_meta = '_woo_sptm_after_sales_action';
 
 	/**
+	 * Option label.
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	private static $option_label = '';
+
+	/**
+	 * Option values.
+	 *
+	 * @var array
+	 * @since 1.0.0
+	 */
+	private static $option_values = array();
+
+	/**
+	 * Option description
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	private static $option_description = '';
+
+	/**
 	 * Bootstraps the class and hooks required actions & filters.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function init() {
+
+		// Set what we need.
+		self::set_needed_values();
 
 		// Product Meta boxes.
 		add_action( 'woocommerce_product_options_general_product_data', array( __CLASS__, 'add_to_metabox' ) );
@@ -34,6 +61,22 @@ class WC_SPTM_Meta_Box_Product_Data {
 
 	}
 
+	/**
+	 * Set needed values.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function set_needed_values() {
+
+		self::$option_label       = __( 'What should happen after scheduled sales period ends?', 'woo-sptm' );
+		self::$option_description = __('Choose what should happen to the product after sales ends. Only valid for scheduled sales products.', 'woo-sptm' );
+		self::$option_values      = array(
+			''       => __( '', 'woo-sptm' ),
+			'delete' => __( 'Delete Product',  'woo-sptm' ),
+			'draft'  => __( 'Draft Product',  'woo-sptm' ),
+		);
+
+	}
 
 
 	/**
@@ -45,14 +88,10 @@ class WC_SPTM_Meta_Box_Product_Data {
         woocommerce_wp_select( 
             array( 
                 'id'          => self::$action_custom_meta, 
-                'label'       => __( 'What happens after sales ends?', 'woo-sptm' ), 
+                'label'       => self::$option_label, 
                 'desc_tip'    => 'true',
-                'description' => __('Choose what should happen to the product after sales ends.',  'woo-sptm' ),
-                'options'     => array(
-                    ''       => __( '', 'woo-sptm' ),
-                    'delete' => __( 'Delete Product',  'woo-sptm' ),
-                    'draft'  => __( 'Draft Product',  'woo-sptm' ),
-				),
+                'description' => self::$option_description,
+                'options'     => self::$option_values,
 				'wrapper_class' => 'show_if_simple',
             )
         );
@@ -86,15 +125,11 @@ class WC_SPTM_Meta_Box_Product_Data {
         woocommerce_wp_select( 
             array( 
                 'id'          => self::$action_custom_meta . '[' . $loop . ']', 
-                'label'       => __( 'What happens after sales ends?', 'woo-sptm' ), 
+                'label'       => self::$option_label, 
                 'desc_tip'    => 'true',
-                'description' => __('Choose what should happen to the product after sales ends.',  'woo-sptm' ),
-                'options'     => array(
-                    ''       => __( '', 'woo-sptm' ),
-                    'delete' => __( 'Delete Product',  'woo-sptm' ),
-                    'draft'  => __( 'Draft Product',  'woo-sptm' ),
-				),
-            )
+                'description' => self::$option_description,
+                'options'     => self::$option_values,
+			)
         );
 	}
 
