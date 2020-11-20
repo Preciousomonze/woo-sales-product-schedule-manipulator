@@ -30,6 +30,6 @@ class WC_SPTM_Dependencies {
 	 * @return Boolean
 	 */
 	public static function is_dep_active() {
-		return self::plugin_active_check( 'woocommerce/woocommerce.php' ) && self::plugin_active_check( 'sales-countdown-timer/sales-countdown-timer.php' );
+		return self::plugin_active_check( 'woocommerce/woocommerce.php' );
 	}
 }
