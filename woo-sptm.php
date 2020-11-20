@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Woo Sales Product Timer Manipulation
- * Plugin URI: https://github.com/Preciousomonze/woo-sales-product-timer-manipulation
- * Description: Based on The Sales Countdown Timer plugin This helps you modify the status of a product after the countdown or sales period has ended.
+ * Plugin Name: Woo Sales Product Schedule Manipulation
+ * Plugin URI: https://github.com/Preciousomonze/woo-sales-product-schedule-manipulation
+ * Description: This helps you modify the status of a product after the countdown or sales period has ended. Requires <strong>WooCommerce</strong>.
  * Author: Precious Omonzejele (CodeXplorer 🤾🏽‍♂️🥞🦜🤡)
  * Author URI: https://codexplorer.ninja
  * Version: 1.0.0
