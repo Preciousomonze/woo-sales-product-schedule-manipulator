@@ -53,7 +53,7 @@ final class WC_SPSM {
     /**
      * Constants define
      */
-    private function define_constants() {
+    private static function define_constants() {
         self::define( 'WOO_SPSM_ABSPATH', dirname( WOO_SPSM_PLUGIN_FILE ) . '/' );
         self::define( 'WOO_SPSM_PLUGIN_FILE', plugin_basename( WOO_SPSM_PLUGIN_FILE ) );
         self::define( 'WOO_SPSM_PLUGIN_VERSION', '1.0.0' );
