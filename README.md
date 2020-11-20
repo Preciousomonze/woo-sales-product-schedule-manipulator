@@ -10,4 +10,4 @@ Dependent on **WooCommerce**.
 ### How to Install
 Same way you install All other WordPress plugins, DKM abeg 🥴
 
-##### Have a nice day.
+##### Have a nice day. 🥞
