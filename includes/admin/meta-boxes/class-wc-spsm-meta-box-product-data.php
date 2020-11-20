@@ -3,9 +3,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * WC_SPTM_Meta_Box_Product_Data class.
+ * WC_SPSM_Meta_Box_Product_Data class.
  */
-class WC_SPTM_Meta_Box_Product_Data {
+class WC_SPSM_Meta_Box_Product_Data {
 
 	/**
 	 * Action custom meta
@@ -13,7 +13,7 @@ class WC_SPTM_Meta_Box_Product_Data {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private static $action_custom_meta = '_woo_sptm_after_sales_action';
+	private static $action_custom_meta = '_woo_spsm_after_sales_action';
 
 	/**
 	 * Option label.
@@ -68,12 +68,12 @@ class WC_SPTM_Meta_Box_Product_Data {
 	 */
 	public static function set_needed_values() {
 
-		self::$option_label       = __( 'What should happen after scheduled sales period ends?', 'woo-sptm' );
-		self::$option_description = __('Choose what should happen to the product after sales ends. Only valid for scheduled sales products.', 'woo-sptm' );
+		self::$option_label       = __( 'What should happen after scheduled sales period ends?', 'woo-spsm' );
+		self::$option_description = __('Choose what should happen to the product after sales ends. Only valid for scheduled sales products.', 'woo-spsm' );
 		self::$option_values      = array(
-			''       => __( '', 'woo-sptm' ),
-			'delete' => __( 'Delete Product',  'woo-sptm' ),
-			'draft'  => __( 'Draft Product',  'woo-sptm' ),
+			''       => __( '', 'woo-spsm' ),
+			'delete' => __( 'Delete Product',  'woo-spsm' ),
+			'draft'  => __( 'Draft Product',  'woo-spsm' ),
 		);
 
 	}
@@ -169,4 +169,4 @@ class WC_SPTM_Meta_Box_Product_Data {
 
 }
 
-WC_SPTM_Meta_Box_Product_Data::init();
+WC_SPSM_Meta_Box_Product_Data::init();

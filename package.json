@@ -1,17 +1,17 @@
 {
-  "title": "Woo Sales Product Timer Manipulation",
-  "name": "woo-sales-product-timer-manipulation",
-  "domain": "wc_free_gift_coupons",
+  "title": "Woo Sales Product Schedule Manipulator",
+  "name": "woo-sales-product-schedule-manipulator",
+  "domain": "woo-spsm",
   "version": "1.0.0",
-  "description": "Based on The Sales Countdown Timer plugin This helps you modify the status of a product after the countdown or sales period has ended.",
+  "description": "This helps you modify the status of a product after the countdown or sales period has ended. Requires <strong>WooCommerce</strong>.",
   "main": "Gruntfile.js",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Preciousomonze/woo-sales-product-timer-manipulation"
+    "url": "https://github.com/Preciousomonze/woo-sales-product-schedule-manipulator"
   },
   "bugs": {
-    "url": "https://github.com/Preciousomonze/woo-sales-product-timer-manipulation/issues"
+    "url": "https://github.com/Preciousomonze/woo-sales-product-schedule-manipulator/issues"
   },
   "author": "preciousomonze",
   "devDependencies": {

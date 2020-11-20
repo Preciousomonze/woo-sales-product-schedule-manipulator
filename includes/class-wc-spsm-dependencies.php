@@ -1,7 +1,7 @@
 <?php
  defined( 'ABSPATH' ) || exit;
 
-class WC_SPTM_Dependencies {
+class WC_SPSM_Dependencies {
 	private static $active_plugins;
 
 	public static function init() {

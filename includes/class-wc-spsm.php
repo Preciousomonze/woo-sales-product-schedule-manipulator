@@ -4,12 +4,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Main Class to load stuff.
  */
-final class WC_SPTM {
+final class WC_SPSM {
 
     /**
      * The single instance of the class.
      *
-     * @var WC_SPTM
+     * @var WC_SPSM
      * @since 1.0.0
      */
     protected static $_instance = null;
@@ -29,7 +29,7 @@ final class WC_SPTM {
      * Constructor.
      */
     public function __construct() {
-        if ( WC_SPTM_Dependencies::is_dep_active() ) {
+        if ( WC_SPSM_Dependencies::is_dep_active() ) {
             self::init();
         } else {
             add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 15 );
@@ -44,17 +44,19 @@ final class WC_SPTM {
 
         /**
          * Init.
+         *
+         * @since 1.0.0
          */
-        do_action( 'woo_sptm_init' );
+        do_action( 'woo_spsm_init' );
     }
 
     /**
      * Constants define
      */
     private function define_constants() {
-        self::define( 'WOO_SPTM_ABSPATH', dirname( WOO_SPTM_PLUGIN_FILE ) . '/' );
-        self::define( 'WOO_SPTM_PLUGIN_FILE', plugin_basename( WOO_SPTM_PLUGIN_FILE ) );
-        self::define( 'WOO_SPTM_PLUGIN_VERSION', '1.0.0' );
+        self::define( 'WOO_SPSM_ABSPATH', dirname( WOO_SPSM_PLUGIN_FILE ) . '/' );
+        self::define( 'WOO_SPSM_PLUGIN_FILE', plugin_basename( WOO_SPSM_PLUGIN_FILE ) );
+        self::define( 'WOO_SPSM_PLUGIN_VERSION', '1.0.0' );
     }
 
     /**
@@ -91,11 +93,11 @@ final class WC_SPTM {
      */
     public static function includes() {
         // Include for all.
-		include_once WOO_SPTM_ABSPATH . 'includes/class-wc-sptm-scheduler.php';
+		include_once WOO_SPSM_ABSPATH . 'includes/class-wc-spsm-scheduler.php';
 
         // Admin side.
         if ( self::is_request( 'admin' ) ) {
-            include_once WOO_SPTM_ABSPATH . 'includes/admin/meta-boxes/class-wc-sptm-meta-box-product-data.php';
+            include_once WOO_SPSM_ABSPATH . 'includes/admin/meta-boxes/class-wc-spsm-meta-box-product-data.php';
         }
     }
 	
@@ -104,7 +106,7 @@ final class WC_SPTM {
      */
     public static function admin_notices() {
         echo '<div class="error"><p>';
-        _e('<strong>Woo Sales Product Timer Manipulation</strong> plugin requires <strong>WooCommerce</strong> and <strong>Sales Countdown Timer</strong> plugins to be active!', 'woo-sptm' );
+        _e('<strong>Woo Sales Product Schedule Manipulator</strong> plugin requires <strong>WooCommerce</strong> and <strong>Sales Countdown Timer</strong> plugins to be active!', 'woo-spsm' );
         echo '</p></div>';
     }
 
@@ -114,7 +116,7 @@ final class WC_SPTM {
      * @since  1.0.0
      */
     public static function load_plugin_textdomain() {
-        load_plugin_textdomain( 'woo-sptm', false, plugin_basename( dirname( WOO_SPTM_PLUGIN_FILE ) ) . '/languages' );
+        load_plugin_textdomain( 'woo-spsm', false, plugin_basename( dirname( WOO_SPSM_PLUGIN_FILE ) ) . '/languages' );
     }
 
 }
