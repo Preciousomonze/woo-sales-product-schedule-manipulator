@@ -1,4 +1,4 @@
-# Woo Sales Product Timer Manipulator
+# Woo Sales Product Schedule Manipulator
 This helps you modify the status of a product after the countdown or sales period has ended. Requires **WooCommerce**.
 
 Current Available status
