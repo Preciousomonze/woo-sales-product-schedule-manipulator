@@ -32,5 +32,9 @@
     "grunt-wp-readme-to-markdown": "^2.0.1",
     "jshint-stylish": "~2.2.1",
     "load-grunt-tasks": "~5.1.0"
-  }
+  },
+  "scripts": {
+		"compress-zip": "php wp-plugin-deploy-helper.php --plugin_name=woo-sales-product-schedule-manipulator --ignore_file_path=.git,.wordpress-org,node_modules,vendor,.sh --delete_files_in_zip=wp-plugin-deploy-helper.php,package-lock.json,composer.lock,.eslintrc.json,.distignore",
+		"deploy": "npm run compress-zip"
+	}
 }
