@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 class WC_SPSM_Meta_Box_Product_Data {
 
 	/**
-	 * Action custom meta
+	 * Action custom meta.
 	 *
 	 * @var string
 	 * @since 1.0.0
@@ -50,11 +50,11 @@ class WC_SPSM_Meta_Box_Product_Data {
 		self::set_needed_values();
 
 		// Product Meta boxes.
-		add_action( 'woocommerce_product_options_general_product_data', array( __CLASS__, 'add_to_metabox' ) );
+		add_action( 'woocommerce_product_options_pricing', array( __CLASS__, 'add_to_metabox' ) );
 		add_action( 'woocommerce_admin_process_product_object', array( __CLASS__, 'save_product_meta' ) );
 
 		// Variable Product.
-		add_action( 'woocommerce_variation_options', array( __CLASS__, 'product_variations_options' ), 10, 3 );
+		add_action( 'woocommerce_variation_options_pricing', array( __CLASS__, 'product_variations_options' ), 10, 3 );
 
 		// Save variations.
 		add_action( 'woocommerce_save_product_variation', array( __CLASS__, 'save_product_variation' ), 30, 2 );
@@ -112,7 +112,6 @@ class WC_SPSM_Meta_Box_Product_Data {
         }
 	}
 
-
 	/**
 	 * Add to each variation
 	 *
@@ -122,13 +121,14 @@ class WC_SPSM_Meta_Box_Product_Data {
 	 * @since 1.0.0
 	 */
 	public static function product_variations_options( $loop, $variation_data, $variation ) {
-        woocommerce_wp_select( 
+		woocommerce_wp_select( 
             array( 
                 'id'          => self::$action_custom_meta . '[' . $loop . ']', 
                 'label'       => self::$option_label, 
                 'desc_tip'    => 'true',
                 'description' => self::$option_description,
-                'options'     => self::$option_values,
+				'options'     => self::$option_values,
+				'value'       => get_post_meta( $variation->ID, self::$action_custom_meta, true ),
 			)
         );
 	}
@@ -146,7 +146,7 @@ class WC_SPSM_Meta_Box_Product_Data {
         // phpcs:disable WordPress.Security.NonceVerification
         
         $variation_after_sales_action = isset( $_POST[ self::$action_custom_meta ][ $i ] ) ? $_POST[ self::$action_custom_meta ][ $i ] : false ;
-        if ( $variation_after_sales_action === false ) {
+        if ( false === $variation_after_sales_action ) {
             return;
         }
 
