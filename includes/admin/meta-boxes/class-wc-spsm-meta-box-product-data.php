@@ -57,7 +57,7 @@ class WC_SPSM_Meta_Box_Product_Data {
 		add_action( 'woocommerce_variation_options_pricing', array( __CLASS__, 'product_variations_options' ), 10, 3 );
 
 		// Save variations.
-		add_action( 'woocommerce_save_product_variation', array( __CLASS__, 'save_product_variation' ), 30, 2 );
+		add_action( 'woocommerce_admin_process_variation_object', array( __CLASS__, 'save_product_variation' ), 30, 2 );
 
 	}
 
@@ -71,7 +71,7 @@ class WC_SPSM_Meta_Box_Product_Data {
 		self::$option_label       = __( 'What should happen after scheduled sales period ends?', 'woo-spsm' );
 		self::$option_description = __('Choose what should happen to the product after sales ends. Only valid for scheduled sales products.', 'woo-spsm' );
 		self::$option_values      = array(
-			''       => __( '', 'woo-spsm' ),
+			''       => __( 'Nothing', 'woo-spsm' ),
 			'delete' => __( 'Delete Product',  'woo-spsm' ),
 			'draft'  => __( 'Draft Product',  'woo-spsm' ),
 		);
@@ -106,10 +106,12 @@ class WC_SPSM_Meta_Box_Product_Data {
 	public static function save_product_meta( $product ) {
 
 		// phpcs:disable WordPress.Security.NonceVerification
+		if ( isset( $_POST[ self::$action_custom_meta ] ) && array_key_exists( $_POST[ self::$action_custom_meta ], self::$option_values ) ) {
+			$product->update_meta_data( self::$action_custom_meta, sanitize_text_field( $_POST[ self::$action_custom_meta ] ) );
+		} else {
+        	$product->delete_meta_data( self::$action_custom_meta );
+		}
 
-		if ( isset( $_POST[ self::$action_custom_meta ] ) ) {
-			$product->update_meta_data( self::$action_custom_meta, esc_attr( $_POST[ self::$action_custom_meta ] ) );
-        }
 	}
 
 	/**
@@ -142,27 +144,13 @@ class WC_SPSM_Meta_Box_Product_Data {
 	 * @since 1.0.0
 	 */
 	public static function save_product_variation( $variation, $i ) {
-
-        // phpcs:disable WordPress.Security.NonceVerification
-        
-        $variation_after_sales_action = isset( $_POST[ self::$action_custom_meta ][ $i ] ) ? $_POST[ self::$action_custom_meta ][ $i ] : false ;
-        if ( false === $variation_after_sales_action ) {
-            return;
-        }
-
-		$is_legacy = false;
-
-		// Need to instantiate the product object on WC<3.8.
-		if ( is_numeric( $variation ) ) {
-			$variation = wc_get_product( $variation );
-			$is_legacy = true;
-		}
-        
-        $variation->update_meta_data( self::$action_custom_meta, $variation_after_sales_action );
-
-		// Save the meta on WC<3.8.
-		if ( $is_legacy ) {
-			$variation->save();
+  
+		// phpcs:disable WordPress.Security.NonceVerification
+		if ( isset( $_POST[ self::$action_custom_meta ][ $i ] )
+		 && array_key_exists( $_POST[ self::$action_custom_meta ][ $i ], self::$option_values ) ) {
+			$variation->update_meta_data( self::$action_custom_meta, sanitize_text_field( $_POST[ self::$action_custom_meta ][ $i ] ) );
+ 		} else {
+	 		$variation->delete_meta_data( self::$action_custom_meta );
 		}
 
 	}
