@@ -62,17 +62,17 @@ class WC_SPSM_Scheduler {
 		);
 
 		$next_scheduled_date   = WC()->queue()->get_next( self::$sales_schedule_hook, $schedule_args, self::$sales_schedule_group );
-		//$next_scheduled_period = $next_scheduled_date ? self::get_time_period( $next_scheduled_date->date( self::$default_date_format ) ) : 0;
+		$next_scheduled_period = $next_scheduled_date ? self::get_time_period( $next_scheduled_date->date( self::$default_date_format ) ) : 0;
 		echo "<pre>";
 		var_dump( $scheduled_period );
 		echo "</pre>";
-		
+
 		echo "<pre>";
 		var_dump( $next_scheduled_date );
 		echo "</pre>";
-		
+
 		// Has this been scheduled before, with same args? Then no need.
-		if ( $next_scheduled_date ) {
+		if ( $next_schedule_period === $scheduled_period ) {
 			exit("already exists");	
 			return;
 		}
