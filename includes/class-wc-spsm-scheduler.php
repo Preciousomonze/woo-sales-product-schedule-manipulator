@@ -30,7 +30,7 @@ class WC_SPSM_Scheduler {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private static $default_date_format = 'Y-m-d H:i:s';
+	private static $default_date_format = 'Y-m-d H:i:sP';
 
 	/**
 	 * Bootstraps the class and hooks required actions & filters.
@@ -38,18 +38,24 @@ class WC_SPSM_Scheduler {
 	 * @since 1.0.0
 	 */
 	public static function init() {
+		// Tends to create the schedule twice, an extra 23:59 ish, no better hook yet :)
+		// add_action( 'woocommerce_after_product_object_save', array( __CLASS__, 'stash_product_sales_schedule' ), 99, 1 );
 
-		add_action( 'woocommerce_after_product_object_save', array( __CLASS__, 'stash_product_sales_schedule' ), 10, 1 );
+		// Works well for simple and variable.
+		add_action( 'woocommerce_process_product_meta_simple', array( __CLASS__, 'stash_product_sales_schedule' ), 99, 1 );
+		add_action( 'woocommerce_save_product_variation', array( __CLASS__, 'stash_product_sales_schedule' ), 99, 1 );
 		add_action( self::$sales_schedule_hook, array( __CLASS__, 'process_batch' ), 10, 2 );
 	}
 
 	/**
 	 * Schedule the update that needs to be batched.
 	 *
-	 * @param WC_Product $product
+	 * @param WC_Product|int $product
 	 * @since 1.0.0
 	 */
 	public static function stash_product_sales_schedule( $product ) {
+
+		$product = is_int( $product ) ? wc_get_product( $product ) : $product;
 
 		// Schedule the update with the time the sales ends.
 		$scheduled_period = self::get_schedulable_period( $product );
@@ -63,21 +69,12 @@ class WC_SPSM_Scheduler {
 
 		$next_scheduled_date   = WC()->queue()->get_next( self::$sales_schedule_hook, $schedule_args, self::$sales_schedule_group );
 		$next_scheduled_period = $next_scheduled_date ? self::get_time_period( $next_scheduled_date->date( self::$default_date_format ) ) : 0;
-		echo "<pre>";
-		var_dump( $scheduled_period );
-		echo "</pre>";
-
-		echo "<pre>";
-		var_dump( $next_scheduled_date );
-		echo "</pre>";
 
 		// Has this been scheduled before, with same args? Then no need.
-		if ( $next_schedule_period === $scheduled_period ) {
-			exit("already exists");	
+		if ( $next_scheduled_period === $scheduled_period ) {
 			return;
 		}
 
-		//exit;
 		if ( ! $scheduled_period ) {
 			return;
 		}
@@ -132,26 +129,23 @@ class WC_SPSM_Scheduler {
 	public static function get_schedulable_period( $product ) {
 		
 		$our_action = $product->get_meta( '_woo_spsm_after_sales_action', true );
+		
+		// Incase there's no sales period.
+		$default_end_date = '1970-01-01 00:00:00';
 
 		// Schedule the update with the time the sales ends.
-		$_end_date  = $product->get_date_on_sale_to( 'view' ) ? $product->get_date_on_sale_to( 'view' ) : '1970';
+		$_end_date  = $product->get_date_on_sale_to( 'edit' ) ? $product->get_date_on_sale_to( 'edit' ) : $default_end_date;
 		$end_period = self::get_time_period( $_end_date, null );
 
 		$present_site_time = self::get_time_period( 'now', null );
 
-		echo "<pre>";
-		var_dump(" present time: ".date(self::$default_date_format,$present_site_time ) );
-		echo "</pre>";		
-		echo "<pre>";
-		var_dump("vs end time: ".date(self::$default_date_format,$end_period));
-		echo "</pre>";		
-		
 		// Is end date in the past?
 		if ( $present_site_time > $end_period || '' === trim( $our_action ) ) {
 			return false;
 		}
 
 		return $end_period;
+
 	}
 
 	/** 
@@ -169,6 +163,7 @@ class WC_SPSM_Scheduler {
 
 		// phpcs:ignore
 		// $wc_time_zone = new DateTimeZone( wc_timezone_string() );
+
 		$date = new WC_DateTime( $date_string );
 
 		/* 
@@ -179,12 +174,6 @@ class WC_SPSM_Scheduler {
 		// phpcs:ignore
 		// $date->setTimezone( $wc_time_zone );
 
-		echo "<br><pre>";
-		//var_dump("offset:". $date->getOffset());
-		echo "</pre>";
-		echo "<br><pre>";
-		//var_dump("tiomestampoffset:". $date->getTimestamp());
-		echo "</pre>";
 		// If format ain't set, convert to raw time();
 		if ( ! $format ) {
 			$result = (int) strtotime( $date->date( self::$default_date_format ) ); 
