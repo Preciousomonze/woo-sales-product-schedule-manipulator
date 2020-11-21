@@ -12,6 +12,8 @@ Current Available status
 Dependent on **WooCommerce**.
 
 ### How to Install
+Download the zip file.
+
 Same way you install All other WordPress plugins, DKM abeg 🥴
 
 ##### Have a nice day. 🥞
